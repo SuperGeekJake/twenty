@@ -2,17 +2,6 @@ version: "3.9"
 name: twenty
 
 services:
-  change-vol-ownership:
-    image: ubuntu
-    user: root
-    volumes:
-      - server-local-data:/tmp/server-local-data
-      - docker-data:/tmp/docker-data
-    command: >
-      bash -c "
-      chown -R 1000:1000 /tmp/server-local-data
-      && chown -R 1000:1000 /tmp/docker-data"
-
   server:
     image: twentycrm/twenty:${TAG}
     volumes:
@@ -37,8 +26,6 @@ services:
 
       APP_SECRET: ${APP_SECRET}
     depends_on:
-      change-vol-ownership:
-        condition: service_completed_successfully
       db:
         condition: service_healthy
     healthcheck:
